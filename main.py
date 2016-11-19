@@ -14,8 +14,7 @@ def is_prime(n):
 
 def make_primes(n):
     for i in range(2, n):
-        if is_prime(i):
-            print i
+        if is_prime(i): print i
 
 def gcd(a, b):
     while 0 != b:
@@ -25,8 +24,7 @@ def gcd(a, b):
 def trial_division(n):
     P = []
     for p in primes:
-        if n**0.5 < p:
-            break
+        if n**0.5 < p: break
         while 0 == n%p:
             P.append(p)
             n /= p
@@ -37,8 +35,8 @@ def modular_pow(b, e, m):
     b, r = b%m, 1
     while e > 0:
         if (1 == e%2):
-            r = (r*b)%m
-            e, b = e>>1, (b*b)%m
+           r = (r*b)%m
+        e, b = e>>1, (b*b)%m
     return r
 
 def trial_pow(n):
@@ -55,16 +53,12 @@ def miller_rabbin(n, k):
     for i in range(k):
         a = randint(2, n-2)
         x = modular_pow(a, d, n)
-        if 1 == x or n-1 == x:
-            continue
+        if 1 == x or n-1 == x: continue
         for j in range(r-1):
             x = (x*x)%n
-            if 1 == x:
-                return False
-            if n-1 == x:
-                break
-        if n-1 == x:
-            continue
+            if 1 == x: return False
+            if n-1 == x: break
+        if n-1 == x: continue
         return False
     return True
 
@@ -77,7 +71,7 @@ def pollards_rho(n):
             y = (y*y+1)%n
             y = (y*y+1)%n
             z = (z*abs(x-y))%n
-            d = gcd(z, n)
+        d = gcd(z, n)
     return [d, n/d]
 
 for N in stdin:
@@ -87,17 +81,16 @@ for N in stdin:
     Q, N = trial_pow(N)
     P.extend(Q)
     F = Queue()
-    if 1 != N:
-        F.put(N)
+    if 1 != N: F.put(N)
     while not F.empty():
         f = F.get()
         if miller_rabbin(f, 10):
             P.append(f)
         else:
             for n in pollards_rho(f):
-                if 1 != n:
-                    F.put(n)
+                if 1 != n: F.put(n)
     s = ''
     for f, n in sorted(Counter(P).iteritems()):
         s += str(f)+'^'+str(n)+' '
     print s
+exit(0)
